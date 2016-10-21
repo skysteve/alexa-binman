@@ -1,2 +1,2 @@
 # alexa-binman
-Alexa skill to inform about which bin to put out next
+Simple hello world style alexa skill to remind me which bin to put out depending on the week
