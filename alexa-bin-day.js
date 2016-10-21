@@ -54,7 +54,7 @@ function getWeekNumber(d) {
 
 exports.handler = (event, context, callback) => {
     try {
-        if (event.session.application.applicationId !== 'amzn1.ask.skill.495a9dfb-3fab-4a7e-88c9-0b30888f313d') {
+        if (event.session.application.applicationId !== 'ID') {
             callback('Invalid Application ID');
         }
 
