@@ -40,7 +40,7 @@ function getBinType(date) {
 
 export function handler(event, context, callback) { // eslint-disable-line import/prefer-default-export
   try {
-    if (event.session.application.applicationId !== 'ID') {
+    if (event.session.application.applicationId !== 'ALEXA_SKILL_ID') {
       callback('Invalid Application ID');
     }
 

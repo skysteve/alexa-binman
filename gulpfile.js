@@ -8,6 +8,7 @@ const eslint = require('gulp-eslint');
 const rollup = require('rollup').rollup;
 const commonjs = require('rollup-plugin-commonjs');
 const nodeResolve = require('rollup-plugin-node-resolve');
+const replace = require('rollup-plugin-replace');
 
 gulp.task('lint', () =>
   gulp.src(['src/**/*.js'])
@@ -26,6 +27,9 @@ gulp.task('script', () => {
       }),
       commonjs({
         include: 'node_modules/**'
+      }),
+      replace({
+        ALEXA_SKILL_ID: process.env.ALEXA_SKILL_ID
       })
     ],
     format: 'cjs',
