@@ -21,7 +21,7 @@ function buildResponse(output) {
 }
 
 function getBinType(date) {
-  const bins = ['Green', 'Recycling'];
+  const bins = ['general waste', 'recycling'];
   let result = bins[0];
 
   // use odd/even week number to calculate which bin it is
@@ -45,7 +45,7 @@ export function handler(event, context, callback) { // eslint-disable-line impor
     }
 
     const binType = getBinType(new Date());
-    callback(null, buildResponse(`You should put the ${binType} bin out`));
+    callback(null, buildResponse(`You should put the ${binType} bin out on Tuesday.`));
   } catch (err) {
     console.log(err);
     callback(err);
