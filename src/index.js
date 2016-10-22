@@ -1,4 +1,5 @@
 'use strict'; // eslint-disable-line strict
+import { getWeekNumber } from './dateHelpers';
 
 function buildResponse(output) {
   console.log('building response', output);
@@ -19,21 +20,6 @@ function buildResponse(output) {
   };
 }
 
-function getWeekNumber(d) {
-  // Copy date so don't modify original
-  d = new Date(+d);
-  d.setHours(0, 0, 0);
-  // Set to nearest Thursday: current date + 4 - current day number
-  // Make Sunday's day number 7
-  d.setDate(d.getDate() + 4 - (d.getDay() || 7)); // eslint-disable-line no-mixed-operators
-  // Get first day of year
-  const yearStart = new Date(d.getFullYear(), 0, 1); // eslint-disable-line no-mixed-operators
-  // Calculate full weeks to nearest Thursday
-  const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-  // Return array of year and week number
-  return weekNo;
-}
-
 function getBinType(date) {
   const bins = ['Green', 'Recycling'];
   let result = bins[0];
@@ -52,7 +38,7 @@ function getBinType(date) {
   return bins.filter(bin => bin !== result).join('');
 }
 
-exports.handler = (event, context, callback) => {
+export function handler(event, context, callback) { // eslint-disable-line import/prefer-default-export
   try {
     if (event.session.application.applicationId !== 'ID') {
       callback('Invalid Application ID');
@@ -64,4 +50,4 @@ exports.handler = (event, context, callback) => {
     console.log(err);
     callback(err);
   }
-};
+}
