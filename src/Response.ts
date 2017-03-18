@@ -1,5 +1,5 @@
 import {AlexaCustomSkillRequest} from '../types/AlexaCustomSkillRequest';
-import {AlexaCustomSkillResponse} from "../types/AlexaCustomSkillResponse";
+import {AlexaCustomSkillResponse} from '../types/AlexaCustomSkillResponse';
 
 declare var process;
 
