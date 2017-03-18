@@ -1,7 +1,7 @@
 'use strict';
-const dateHelpers = require('./dateHelpers');
+import * as moment from 'moment';
 
-module.exports = {
+export = {
   defaults: {
     welcomeMessage() {
       return 'Welcome to the bin man skill. This skill will let you do things';
@@ -13,7 +13,7 @@ module.exports = {
       let result = bins[0];
 
       // use odd/even week number to calculate which bin it is
-      if (dateHelpers.getWeekNumber(date) % 2) {
+      if (moment(date).weekYear() % 2) {
         result = bins[1];
       }
 

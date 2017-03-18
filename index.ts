@@ -1,8 +1,10 @@
-'use strict';
-const handlers = require('./src/handlers');
-const responder = require('./src/responder');
+import {AlexaCustomSkillRequest} from './types/AlexaCustomSkillRequest';
+import * as handlers from './src/handlers';
+import * as responder from './src/responder';
 
-module.exports.handler = function handler(event, context, callback) {
+declare var process;
+
+export function handler(event: AlexaCustomSkillRequest, context: any, callback: Function): any {
   try {
     if (event.session.application.applicationId !== process.env.ALEXA_SKILL_ID) {
       callback('Invalid Application ID');
@@ -10,9 +12,9 @@ module.exports.handler = function handler(event, context, callback) {
 
     console.log('**', event);
 
-    switch (event.type) {
+    switch (event.request.type) {
       case 'LaunchRequest':
-        return handlers.defaults.welcomeMessage();
+        return callback(null, responder.buildResponse(handlers.defaults.welcomeMessage()));
       case 'Intent':
         break;
       default:
@@ -27,4 +29,4 @@ module.exports.handler = function handler(event, context, callback) {
     console.log(err);
     callback(err);
   }
-};
+}
