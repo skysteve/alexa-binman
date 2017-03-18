@@ -20,7 +20,7 @@ export function buildResponse(output: string): any {
 }
 
 export function respondUnknown(request: AlexaCustomSkillRequest): any {
-  console.error('Unknown request', request);
+  console.error('Unknown request', JSON.stringify(request, null, 2));
   const message = 'Sorry failed to understand the request';
   return {
     version: '1.0',

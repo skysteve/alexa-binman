@@ -13,19 +13,24 @@ export function handler(event: AlexaCustomSkillRequest, context: any, callback: 
 
     console.log('**', event);
 
+    // handle request type
     switch (event.request.type) {
       case 'LaunchRequest':
         return callback(null, responder.buildResponse(welcomeMessage()));
-      case 'Intent':
+      case 'IntentRequest':
         break;
       default:
         return callback(null, responder.respondUnknown(event));
     }
 
-    // TODO switch by intent type
-
-    const binType = intents.getBinType(new Date());
-    callback(null, responder.buildResponse(`You should put the ${binType} bin out on Tuesday.`));
+    // handle intents
+    switch (event.request.intent.name) {
+      case 'GetBinType':
+        const binType = intents.getBinType(new Date());
+        return callback(null, responder.buildResponse(`You should put the ${binType} bin out on Tuesday.`));
+      default:
+        return callback(null, responder.respondUnknown(event));
+    }
   } catch (err) {
     console.log(err);
     callback(err);

@@ -36,10 +36,14 @@ export type AlexaCustomSkillRequest = {
     }
   };
   request: {
-    type: string
-    requestId: string,
-    timestamp: string,
-    locale: string
+    type: string;
+    requestId: string;
+    timestamp: string;
+    locale: string;
+    intent?: {
+      name: string;
+      slots: any;
+    }
 }
 
 };
