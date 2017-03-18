@@ -1,51 +1,42 @@
-'use strict'; // eslint-disable-line strict
-import { getWeekNumber } from './dateHelpers';
+/**
+ * Created by steve on 24/10/2016.
+ */
+import { IntentHandler } from './IntentHandler';
+import { Responder } from './Responder';
 
-function buildResponse(output) {
-  console.log('building response', output);
-  return {
-    version: '1.0',
-    response: {
-      outputSpeech: {
-        type: 'PlainText',
-        text: output
-      },
-      card: {
-        type: 'Simple',
-        title: 'Bin Man',
-        content: output
-      },
-      shouldEndSession: true
-    }
-  };
-}
-
-function getBinType(date) {
-  const bins = ['general waste', 'recycling'];
-  let result = bins[0];
-
-  // use odd/even week number to calculate which bin it is
-  if (getWeekNumber(date) % 2) {
-    result = bins[1];
-  }
-
-  // if we haven't got to tuesday, return the result
-  if (date.getDay() <= 2) {
-    return result;
-  }
-
-  // otherwise get the other bin (next week's bin')
-  return bins.filter(bin => bin !== result).join('');
-}
-
-export function handler(event, context, callback) { // eslint-disable-line import/prefer-default-export
+/**
+ * Lambda handler which is called when alexa calls our skill
+ * @param event {object} the alexa request object
+ * @param context {object} unused
+ * @param callback {function} callback function for lambda result
+ * @returns {*} void
+ */
+export function handler(event, context, callback) {
   try {
+    // validate alexa skill id
     if (event.session.application.applicationId !== 'ALEXA_SKILL_ID') {
-      callback('Invalid Application ID');
+      return callback('Invalid Application ID');
     }
 
-    const binType = getBinType(new Date());
-    callback(null, buildResponse(`You should put the ${binType} bin out on Tuesday.`));
+    const responder = new Responder(callback);
+
+    switch (event.request.type) {
+      case 'LaunchRequest':
+        responder.setCard('Unknown command, you could try asking "Which bin should I put out?"');
+        responder.setResponseText('Unknown command, you could try asking "Which bin should I put out?"');
+        responder.setReprompt('Try asking "Which bin should I put out?"');
+        responder.respond(false);
+        break;
+      case 'IntentRequest':
+        const intentHandler = new IntentHandler(event.request, event.session, responder);
+        intentHandler.handleIntent(event.request.intent.name);
+        break;
+      case 'SessionEndedRequest':
+        callback();
+        break;
+      default:
+        return responder.errorHandler(`Unknown request type ${event.request.type}`);
+    }
   } catch (err) {
     console.log(err);
     callback(err);
