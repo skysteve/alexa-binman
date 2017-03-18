@@ -1,7 +1,7 @@
 import {AlexaCustomSkillRequest} from '../types/AlexaCustomSkillRequest';
 import * as intents from './handlers/intents';
 import {welcomeMessage} from './handlers/defaults';
-import * as responder from './responder';
+import {Response} from './Response';
 
 declare var process;
 
@@ -11,25 +11,24 @@ export function handler(event: AlexaCustomSkillRequest, context: any, callback: 
       callback('Invalid Application ID');
     }
 
-    console.log('**', event);
+    const response = new Response(callback, event);
 
     // handle request type
     switch (event.request.type) {
       case 'LaunchRequest':
-        return callback(null, responder.buildResponse(welcomeMessage()));
+        return welcomeMessage(response);
       case 'IntentRequest':
         break;
       default:
-        return callback(null, responder.respondUnknown(event));
+        return response.sendUnknownRequest();
     }
 
     // handle intents
     switch (event.request.intent.name) {
       case 'GetBinType':
-        const binType = intents.getBinType(new Date());
-        return callback(null, responder.buildResponse(`You should put the ${binType} bin out on Tuesday.`));
+        return intents.getBinType(response);
       default:
-        return callback(null, responder.respondUnknown(event));
+        return response.sendUnknownRequest();
     }
   } catch (err) {
     console.log(err);

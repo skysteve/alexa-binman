@@ -5,10 +5,9 @@ const gulpTslint = require('gulp-tslint');
 const tslint = require('tslint');
 
 gulp.task('lint', () => {
-  const tsProject = ts.createProject('tsconfig.json');
   const program = tslint.Linter.createProgram('./tsconfig.json');
 
-  tsProject.src()
+  gulp.src('src/**/*.ts')
     .pipe(gulpTslint({
       formatter: 'stylish',
       program
