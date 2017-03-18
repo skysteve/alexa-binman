@@ -1,7 +1,7 @@
-'use strict';
+import {AlexaCustomSkillRequest} from '../types/AlexaCustomSkillRequest';
 
-module.exports = {
-  buildResponse(output) {
+export = {
+  buildResponse(output: string): any {
     console.log('building response', output);
     return {
       version: '1.0',
@@ -20,19 +20,20 @@ module.exports = {
     };
   },
 
-  respondUnknown(request) {
+  respondUnknown(request: AlexaCustomSkillRequest): any {
     console.error('Unknown request', request);
+    const message = 'Sorry failed to understand the request';
     return {
       version: '1.0',
       response: {
         outputSpeech: {
           type: 'PlainText',
-          text: output
+          text: message
         },
         card: {
           type: 'Simple',
           title: 'Bin Man',
-          content: output
+          content: message
         },
         shouldEndSession: true
       }
