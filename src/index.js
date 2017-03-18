@@ -40,9 +40,12 @@ function getBinType(date) {
 
 export function handler(event, context, callback) { // eslint-disable-line import/prefer-default-export
   try {
-    if (event.session.application.applicationId !== 'ALEXA_SKILL_ID') {
+    if (event.session.application.applicationId !== process.env.ALEXA_SKILL_ID) {
       callback('Invalid Application ID');
     }
+
+    console.log('**', event);
+    console.log('##', context);
 
     const binType = getBinType(new Date());
     callback(null, buildResponse(`You should put the ${binType} bin out on Tuesday.`));
