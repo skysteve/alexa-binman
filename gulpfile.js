@@ -21,7 +21,7 @@ gulp.task('lint', () => {
 gulp.task('build', ['lint'], () => {
   const tsProject = ts.createProject(path.join(__dirname, '.', 'tsconfig.json'));
 
-  return gulp.src('./?(src|features|interfaces)/**/*.?(ts|js)')
+  return gulp.src('./src/**/*.?(ts|js)')
     .pipe(tsProject())
     .pipe(gulp.dest(path.join('./', 'dist')));
 });

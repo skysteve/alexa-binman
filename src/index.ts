@@ -1,6 +1,7 @@
-import {AlexaCustomSkillRequest} from './types/AlexaCustomSkillRequest';
-import * as handlers from './src/handlers';
-import * as responder from './src/responder';
+import {AlexaCustomSkillRequest} from '../types/AlexaCustomSkillRequest';
+import * as intents from './handlers/intents';
+import {welcomeMessage} from './handlers/defaults';
+import * as responder from './responder';
 
 declare var process;
 
@@ -14,16 +15,16 @@ export function handler(event: AlexaCustomSkillRequest, context: any, callback: 
 
     switch (event.request.type) {
       case 'LaunchRequest':
-        return callback(null, responder.buildResponse(handlers.defaults.welcomeMessage()));
+        return callback(null, responder.buildResponse(welcomeMessage()));
       case 'Intent':
         break;
       default:
-        return responder.respondUnknown(event);
+        return callback(null, responder.respondUnknown(event));
     }
 
     // TODO switch by intent type
 
-    const binType = handlers.intents.getBinType(new Date());
+    const binType = intents.getBinType(new Date());
     callback(null, responder.buildResponse(`You should put the ${binType} bin out on Tuesday.`));
   } catch (err) {
     console.log(err);
