@@ -18,5 +18,24 @@ module.exports = {
         shouldEndSession: true
       }
     };
+  },
+
+  respondUnknown(request) {
+    console.error('Unknown request', request);
+    return {
+      version: '1.0',
+      response: {
+        outputSpeech: {
+          type: 'PlainText',
+          text: output
+        },
+        card: {
+          type: 'Simple',
+          title: 'Bin Man',
+          content: output
+        },
+        shouldEndSession: true
+      }
+    };
   }
 };

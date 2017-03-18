@@ -1,5 +1,6 @@
 'use strict';
 const handlers = require('./src/handlers');
+const responder = require('./src/responder');
 
 module.exports.handler = function handler(event, context, callback) {
   try {
@@ -8,10 +9,20 @@ module.exports.handler = function handler(event, context, callback) {
     }
 
     console.log('**', event);
-    console.log('##', context);
 
-    const binType = handlers.getBinType(new Date());
-    callback(null, buildResponse(`You should put the ${binType} bin out on Tuesday.`));
+    switch (event.type) {
+      case 'LaunchRequest':
+        return handlers.defaults.welcomeMessage();
+      case 'Intent':
+        break;
+      default:
+        return responder.respondUnknown(event);
+    }
+
+    // TODO switch by intent type
+
+    const binType = handlers.intents.getBinType(new Date());
+    callback(null, responder.buildResponse(`You should put the ${binType} bin out on Tuesday.`));
   } catch (err) {
     console.log(err);
     callback(err);
