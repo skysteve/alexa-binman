@@ -52,6 +52,7 @@
     "whitespace": [
       true
     ],
-    "no-console": false
+    "no-console": false,
+    "variable-name": false
   }
 }
