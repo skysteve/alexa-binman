@@ -6,9 +6,7 @@ export type AlexaCustomSkillRequest = {
     application: {
       applicationId: string
     };
-    attributes: {
-      string: {}
-    };
+    attributes: any;
     user: {
       userId: string;
       accessToken: string

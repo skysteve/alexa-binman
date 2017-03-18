@@ -1,3 +1,9 @@
+SetBinDay {BinDay}
+SetBinDay set bin day as {BinDay}
+SetBinDay set bin day to {BinDay}
+SetBinDay set collection day to {BinDay}
+SetBinDay set collection day as {BinDay}
+
 GetBinType what bin should I put out
 GetBinType what bin should I put out next
 GetBinType what bin should I put out tomorrow

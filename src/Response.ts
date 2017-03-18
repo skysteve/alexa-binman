@@ -14,6 +14,7 @@ export class Response {
   private _cardContent: string;
   private _speechText: string;
   private _repomptText: string;
+  private attributes: any;
 
   /**
    * Initialise the responder with a callback to call when done
@@ -22,6 +23,7 @@ export class Response {
   constructor(callback: Function, request: AlexaCustomSkillRequest) {
     this.callback = callback;
     this.request = request;
+    this.attributes = request.session.attributes || {};
     this._endSession = true; // by default end the session
 
     if (DEBUG) {
@@ -42,6 +44,7 @@ export class Response {
     // build the response
     const response: AlexaCustomSkillResponse = {
       version: RESPONSE_VERSION,
+      sessionAttributes: this.attributes,
       response: {
         outputSpeech: {
           type: 'PlainText',
@@ -80,7 +83,7 @@ export class Response {
   public sendUnknownRequest(): void {
     console.error('Unknown request', JSON.stringify(this.request, null, 2));
 
-    const message = 'Sorry I failed to understand your request, please try again';
+    const message = 'Sorry, I failed to understand your request, please try again';
     this.callback(null, {
       version: RESPONSE_VERSION,
       response: {
@@ -96,6 +99,10 @@ export class Response {
         shouldEndSession: true
       }
     });
+  }
+
+  addSessionAttributes(attributes: any) {
+    Object.assign(this.attributes, attributes);
   }
 
   /* getters and setters */

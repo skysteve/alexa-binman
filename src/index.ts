@@ -1,6 +1,6 @@
 import {AlexaCustomSkillRequest} from '../types/AlexaCustomSkillRequest';
 import * as intents from './handlers/intents';
-import {welcomeMessage} from './handlers/defaults';
+import {welcomeMessage, handleNo, handleYes} from './handlers/defaults';
 import {Response} from './Response';
 
 declare var process;
@@ -27,6 +27,10 @@ export function handler(event: AlexaCustomSkillRequest, context: any, callback: 
     switch (event.request.intent.name) {
       case 'GetBinType':
         return intents.getBinType(response);
+      case 'AMAZON.NoIntent':
+        return handleNo(event, response);
+      case 'AMAZON.YesIntent':
+        return handleYes(event, response);
       default:
         return response.sendUnknownRequest();
     }
