@@ -13,6 +13,7 @@ export class Response {
   private _endSession: boolean;
   private _cardContent: string;
   private _speechText: string;
+  private _repomptText: string;
 
   /**
    * Initialise the responder with a callback to call when done
@@ -46,18 +47,26 @@ export class Response {
           type: 'PlainText',
           text: this._speechText
         },
-        card: {
-          type: 'Simple',
-          title: SKILL_TITLE,
-          content: this._cardContent
-        },
         shouldEndSession: this._endSession
       }
     };
 
     // if no card content, don't return a card
-    if (!this._cardContent) {
-      delete response.response.card;
+    if (this._cardContent) {
+      response.response.card = {
+        type: 'Simple',
+          title: SKILL_TITLE,
+          content: this._cardContent
+      };
+    }
+
+    if (this._repomptText) {
+      response.response.reprompt = {
+        outputSpeech: {
+          type: 'PlainText',
+          text: this._repomptText
+        }
+      };
     }
 
     // send the response
@@ -101,5 +110,11 @@ export class Response {
 
   set speechText(text: string) {
     this._speechText = text;
+  }
+
+  set repomptText(text: string) {
+    this._repomptText = text;
+    // if there's reprompt text - we obv don't want to end
+    this._endSession = false;
   }
 }
