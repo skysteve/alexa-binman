@@ -1,4 +1,5 @@
 import {AlexaCustomSkillRequest} from '../types/AlexaCustomSkillRequest';
+import {AlexaCustomSkillResponse} from "../types/AlexaCustomSkillResponse";
 
 declare var process;
 
@@ -38,7 +39,7 @@ export class Response {
     }
 
     // build the response
-    const response = {
+    const response: AlexaCustomSkillResponse = {
       version: RESPONSE_VERSION,
       response: {
         outputSpeech: {
