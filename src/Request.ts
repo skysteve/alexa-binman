@@ -12,7 +12,7 @@ export class Request {
     this.event = event;
 
     if (DEBUG) {
-      console.log('INCOMING_REQUEST', JSON.stringify(request, null, 2));
+      console.log('INCOMING_REQUEST', JSON.stringify(event, null, 2));
     }
   }
 
