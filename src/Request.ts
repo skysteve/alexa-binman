@@ -1,11 +1,19 @@
 import {AlexaCustomSkillRequest, SkillRequest, SkillSession} from '../types/AlexaCustomSkillRequest';
 import {get as getFromDynamo} from './helpers/dynamoDb';
 
+declare var process;
+
+const DEBUG = process.env.DEBUG === 'true';
+
 export class Request {
   private event: AlexaCustomSkillRequest;
 
   constructor(event: AlexaCustomSkillRequest) {
     this.event = event;
+
+    if (DEBUG) {
+      console.log('INCOMING_REQUEST', JSON.stringify(request, null, 2));
+    }
   }
 
   public get intentName(): string {

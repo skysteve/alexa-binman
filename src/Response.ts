@@ -1,9 +1,6 @@
 import {AlexaCustomSkillRequest} from '../types/AlexaCustomSkillRequest';
 import {AlexaCustomSkillResponse} from '../types/AlexaCustomSkillResponse';
 
-declare var process;
-
-const DEBUG = process.env.DEBUG;
 const RESPONSE_VERSION = '1.0';
 const SKILL_TITLE = 'Bin Man';
 
@@ -25,10 +22,6 @@ export class Response {
     this.request = request;
     this.attributes = request.session.attributes || {};
     this._endSession = true; // by default end the session
-
-    if (DEBUG) {
-      console.log('INCOMING_REQUEST', JSON.stringify(request, null, 2));
-    }
   }
 
   /**
