@@ -2,6 +2,8 @@ import {Request} from '../Request';
 import {Response} from '../Response';
 
 export function welcomeMessage(response: Response): void {
+  // TODO check if already know the correct days and ask the user if they want to override them
+
   response.speechText = 'Welcome to the bin man skill. You will need to tell me which day your bin is collected. Would you like to do that now?';
   response.repomptText = 'Would you like me to save which day of the week your bin is collected?';
   response.addSessionAttributes({requestedBinDay: true});

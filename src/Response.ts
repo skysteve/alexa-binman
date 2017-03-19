@@ -40,8 +40,8 @@ export class Response {
       sessionAttributes: this.attributes,
       response: {
         outputSpeech: {
-          type: 'PlainText',
-          text: this._speechText
+          type: 'SSML',
+          speech: `<speak> ${this._speechText} </speak>`
         },
         shouldEndSession: this._endSession
       }
@@ -59,8 +59,8 @@ export class Response {
     if (this._repomptText) {
       response.response.reprompt = {
         outputSpeech: {
-          type: 'PlainText',
-          text: this._repomptText
+          type: 'SSML',
+          text: `<speak> ${this._repomptText} </speak>`
         }
       };
     }
