@@ -41,7 +41,7 @@ export class Response {
       response: {
         outputSpeech: {
           type: 'SSML',
-          speech: `<speak> ${this._speechText} </speak>`
+          ssml: `<speak> ${this._speechText} </speak>`
         },
         shouldEndSession: this._endSession
       }
@@ -60,7 +60,7 @@ export class Response {
       response.response.reprompt = {
         outputSpeech: {
           type: 'SSML',
-          text: `<speak> ${this._repomptText} </speak>`
+          ssml: `<speak> ${this._repomptText} </speak>`
         }
       };
     }
