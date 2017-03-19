@@ -45,7 +45,11 @@ export class Request {
       return;
     }
 
-    return this.request.intent.slots[key];
+    if (!this.request.intent.slots[key]) {
+      return;
+    }
+
+    return this.request.intent.slots[key].value;
   }
 
   public hasSessionAttributes(): boolean {
