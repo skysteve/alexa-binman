@@ -1,17 +1,30 @@
+export type SkillRequest = {
+  type: string;
+  requestId: string;
+  timestamp: string;
+  locale: string;
+  intent?: {
+    name: string;
+    slots: any;
+  }
+};
+
+export type SkillSession ={
+  new: boolean;
+  sessionId: string;
+  application: {
+    applicationId: string
+  };
+  attributes: any;
+  user: {
+    userId: string;
+    accessToken: string
+  }
+};
+
 export type AlexaCustomSkillRequest = {
   version: string;
-  session: {
-    new: boolean;
-    sessionId: string;
-    application: {
-      applicationId: string
-    };
-    attributes: any;
-    user: {
-      userId: string;
-      accessToken: string
-    }
-  };
+  session: SkillSession;
   context: {
     System: {
       application: {
@@ -33,15 +46,5 @@ export type AlexaCustomSkillRequest = {
       playerActivity: string
     }
   };
-  request: {
-    type: string;
-    requestId: string;
-    timestamp: string;
-    locale: string;
-    intent?: {
-      name: string;
-      slots: any;
-    }
-}
-
+  request: SkillRequest
 };

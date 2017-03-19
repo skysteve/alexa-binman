@@ -1,20 +1,23 @@
 import {AlexaCustomSkillRequest} from '../types/AlexaCustomSkillRequest';
 import * as intents from './handlers/intents';
 import {welcomeMessage, handleNo, handleYes} from './handlers/defaults';
+import {Request} from './Request';
 import {Response} from './Response';
 
 declare var process;
 
 export function handler(event: AlexaCustomSkillRequest, context: any, callback: Function): any {
   try {
-    if (event.session.application.applicationId !== process.env.ALEXA_SKILL_ID) {
+    const request = new Request(event);
+
+    if (request.applicationId !== process.env.ALEXA_SKILL_ID) {
       callback('Invalid Application ID');
     }
 
     const response = new Response(callback, event);
 
     // handle request type
-    switch (event.request.type) {
+    switch (request.requestType) {
       case 'LaunchRequest':
         return welcomeMessage(response);
       case 'IntentRequest':
@@ -24,13 +27,15 @@ export function handler(event: AlexaCustomSkillRequest, context: any, callback: 
     }
 
     // handle intents
-    switch (event.request.intent.name) {
+    switch (request.intentName) {
       case 'GetBinType':
-        return intents.getBinType(response);
+        return intents.getBinType(request, response);
+      case 'SetBinDay':
+        return intents.setBinDay(request, response);
       case 'AMAZON.NoIntent':
-        return handleNo(event, response);
+        return handleNo(request, response);
       case 'AMAZON.YesIntent':
-        return handleYes(event, response);
+        return handleYes(request, response);
       default:
         return response.sendUnknownRequest();
     }

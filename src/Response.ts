@@ -101,25 +101,25 @@ export class Response {
     });
   }
 
-  addSessionAttributes(attributes: any) {
+  public addSessionAttributes(attributes: any) {
     Object.assign(this.attributes, attributes);
   }
 
   /* getters and setters */
 
-  set endSession(endSession: boolean) {
+  public set endSession(endSession: boolean) {
     this._endSession = endSession;
   }
 
-  set cardContent(text: string) {
+  public set cardContent(text: string) {
     this._cardContent = text;
   }
 
-  set speechText(text: string) {
+  public set speechText(text: string) {
     this._speechText = text;
   }
 
-  set repomptText(text: string) {
+  public set repomptText(text: string) {
     this._repomptText = text;
     // if there's reprompt text - we obv don't want to end
     this._endSession = false;
