@@ -4,7 +4,9 @@ SetBinDay set bin day to {BinDay}
 SetBinDay set collection day to {BinDay}
 SetBinDay set collection day as {BinDay}
 SetBinDay to set {BinDay} as the collection day
+SetBinDay to set {BinDay} as my collection day
 SetBinDay to set {BinDay} as the bin day
+SetBinDay to set {BinDay} as my bin day
 SetBinDay to set {BinDay} as bin day
 
 GetBinDay what day is bin day

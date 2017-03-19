@@ -1,6 +1,6 @@
 {
   "intents": [
-    {"intent": "SetBinDay", "slots": [{"name": "BinDay", "type": "AMAZON.DayOfWeek"}]},
+    {"intent": "SetBinDay", "slots": [{"name": "BinDay", "type": "AMAZON.DayOfWeekUK"}]},
     {"intent": "GetBinType"},
     {"intent": "GetBinDay"},
     {"intent": "AMAZON.YesIntent"},
