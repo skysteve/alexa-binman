@@ -30,6 +30,8 @@ export function handler(event: AlexaCustomSkillRequest, context: any, callback: 
     switch (request.intentName) {
       case 'GetBinType':
         return intents.getBinType(request, response);
+      case 'GetBinDay':
+        return intents.getBinDay(request, response);
       case 'SetBinDay':
         return intents.setBinDay(request, response);
       case 'AMAZON.NoIntent':

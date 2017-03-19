@@ -27,6 +27,29 @@ export function getBinType(request: Request, response: Response): void {
   response.send();
 }
 
+export function getBinDay(request: Request, response: Response): void {
+  request.loadDynamoUser()
+    .then((dynamoUser) => {
+      const day = dynamoUser.binDay;
+
+      if (!day) {
+        // TODO we could probably ask which day is bin day here
+        response.speechText = 'I could\'t find which day is your bin day, please set your bin day by saying "Alexa ask bin man to set my bin day as Tuesday"';
+        response.send();
+        return;
+      }
+
+      // TODO maybe something smart like "tomorrow" or "your bin day is a tuesday, which is tomorrow"
+      response.speechText = `Your bin day is ${day}`;
+      response.send();
+    })
+    .catch((ex) => {
+      console.error(ex);
+      response.speechText = 'Sorry I had trouble loading your data that, please try again';
+      response.send();
+    });
+}
+
 export function setBinDay(request: Request, response: Response): void {
   const day = request.getSlotValue('BinDay');
 
