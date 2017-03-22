@@ -12,6 +12,8 @@ SetBinDay to set {BinDay} as bin day
 GetBinDay what day is bin day
 GetBinDay which day is bin day
 
+SetCurrentBinType {BinType}
+
 GetBinType what bin should I put out
 GetBinType what bin should I put out next
 GetBinType what bin should I put out tomorrow

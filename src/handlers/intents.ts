@@ -4,27 +4,45 @@ import {Response} from '../Response';
 import {set as setInDynamo} from '../helpers/dynamoDb';
 
 export function getBinType(request: Request, response: Response): void {
-  const bins = ['general waste', 'recycling'];
-  const date = new Date();
-  let result = bins[0];
-  let binType;
 
-  // use odd/even week number to calculate which bin it is
-  if (moment(date).weekYear() % 2) {
-    result = bins[1];
-  }
+  request.loadDynamoUser()
+    .then((dynamoUser) => {
+      const day = dynamoUser.binDay;
 
-  // if we haven't got to tuesday, return the result
-  if (date.getDay() <= 2) {
-    binType = result;
-  } else {
-    // otherwise get the other bin (next week's bin')
-    binType = bins.filter(bin => bin !== result).join('');
-  }
+      if (!day) {
+        // TODO we could probably ask which day is bin day here
+        response.speechText = 'I could\'t find which day is your bin day, please set your bin day by saying "Alexa ask bin man to set my bin day as Tuesday"';
+        response.send();
+        return;
+      }
 
-  response.speechText = `You should put the ${binType} bin out on Tuesday.`;
-  response.cardContent = `You should put the ${binType} bin out on Tuesday.`;
-  response.send();
+      const bins = ['general waste', 'recycling'];
+      const date = new Date();
+      let result = bins[0];
+      let binType;
+
+      // use odd/even week number to calculate which bin it is
+      if (moment(date).weekYear() % 2) {
+        result = bins[1];
+      }
+
+      // if we haven't got to tuesday, return the result
+      if (date.getDay() <= 2) {
+        binType = result;
+      } else {
+        // otherwise get the other bin (next week's bin')
+        binType = bins.filter(bin => bin !== result).join('');
+      }
+
+      response.speechText = `You should put the ${binType} bin out on ${day}.`;
+      response.cardContent = `You should put the ${binType} bin out on ${day}.`;
+      response.send();
+    })
+    .catch((ex) => {
+      console.error(ex);
+      response.speechText = 'Sorry I had trouble loading your data that, please try again';
+      response.send();
+    });
 }
 
 export function getBinDay(request: Request, response: Response): void {
@@ -67,6 +85,7 @@ export function setBinDay(request: Request, response: Response): void {
   setInDynamo(request.userId, data)
     .then(() => {
       response.speechText = `I have remembered your bin day as ${day}`;
+      // TODO unset session var and ask the next question (if from welcome intent)
       response.send();
     })
     .catch((err) => {
